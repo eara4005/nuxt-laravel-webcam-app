@@ -1,0 +1,25 @@
+# webcam-app ローカル環境構築
+
+・Docker Node.js Git の環境が整っていることが前提
+
+目次
+
+1. [ソースコードのダウンロード](#dl)
+1. [仮想環境の立ち上げ](#build)
+
+<a id="dl"></a>
+
+## ソースコードのダウンロード
+
+<a id="build"></a>
+
+## 仮想環境の立ち上げ
+
+```
+cd /workspace/myapp
+```
+
+```
+docker-compose build --no-cache
+docker-compose up -d
+```
