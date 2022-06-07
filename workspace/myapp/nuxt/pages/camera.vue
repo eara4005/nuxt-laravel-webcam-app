@@ -53,9 +53,6 @@
                         </v-card-actions>
                     </div>
                 </div>
-            </v-cols>
-            <v-cols cols="12" sm="8" md="6">
-                <h2>撮った写真</h2>
                 <v-card 
                     class="logo py-4S justify-center"
                     min-width="720"
@@ -70,17 +67,27 @@
                         </figure>
                     </div>
                 </v-card>
-                <div class="col-md-12">
-                    <v-card-actions>
-                        <v-btn
-                            color="primary"
-                            @click="onClickAdd"
-                            to=/upload nuxt
-                        >
-                            アップロード
-                        </v-btn>
-                    </v-card-actions>
+                <v-text-field
+                    v-model="name"
+                    label="ユーザー名を入力"
+                    placeholder="あなたの表示名"
+                    outlined
+                    :rules="[required,limit_length]"
+                    
+                />
+                <div class="error">
+                    <h2>{{errorMsg}}</h2>
                 </div>
+                <v-card-actions>
+                    <v-btn
+                        :disabled="!name"
+                        color="primary"
+                        @click="onClickAdd"
+                    >
+                        アップロード
+                    </v-btn>
+                </v-card-actions>
+
             </v-cols>
         </v-row>
     </v-container>
@@ -98,10 +105,16 @@ export default {
     data() {
         return {
             img: null,
+            name:null,
+            btn:null,
             camera: null,
             deviceId: null,
-            devices: []
+            devices: [],
+            btnflg:false,
+            errorMsg:"",
+            
         };
+        
     },
     computed: {
         device: function() {
@@ -121,7 +134,11 @@ export default {
             }
         }
     },
+    
     methods: {
+        // 入力規則
+        required: value => !!value || "必ず入力してください", // 入力必須の制約
+
         onCapture() {
             this.img = this.$refs.webcam.capture();
             alert("写真が取れました！スクロールして確認してください。")
@@ -151,14 +168,20 @@ export default {
             console.log("On Camera Change Event", deviceId);
         },
         async onClickAdd() {
-            const formData = new FormData()
+            const formData = new FormData();
 
-            formData.append("file",this.img)
-           
-            axios.post('http://localhost:18080/api/upload',formData).then(response => {
-                alert('投稿完了')
-            })
-            
+            formData.append("img",this.img);
+            formData.append("name",this.name);
+
+                    axios.post('http://localhost:18080/api/upload',formData).then(response => {
+                        if(response.data.miss_match != null ){
+                            this.errorMsg = response.data.miss_match;
+                        }
+                    })
+                        .catch(response => {
+                        alert('送信に失敗しました。')
+                    });
+                
         },
     }
 };
