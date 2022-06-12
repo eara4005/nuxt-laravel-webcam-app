@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Member;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
+
 class ImgUpController extends Controller
 {
 
@@ -17,26 +19,14 @@ class ImgUpController extends Controller
         $this->member = new Member();
     }
 
-    protected function failedValidation(Validator $validator) {
-        $res = response()->json([
-            'status' => 400,
-            'errors' => $validator->errors(),
-        ], 400);
-        throw new HttpResponseException($res);
-    }
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        // return response()->json(['index' => 'index page', 'upload' => 'after up page',]);
-        $names = $this->member->showSelectName();
-        //return response()->json([$member]);
-        return $names;
+        
     }
 
     /**
@@ -56,18 +46,6 @@ class ImgUpController extends Controller
         $base64Str = str_replace(' ', '+', preg_replace('/^data:image.*base64,/', '', $img));
         // デコード + public直下に保存
         file_put_contents('testCap.jpg', base64_decode($base64Str));
-
-        $i = 1;
-        $allNames = $this->member->showAllName();
-        foreach($allNames as $i){
-            $names = $this->member->find($i);
-            if($names === $names){
-                return response()->json(['miss_match' => 'このユーザー名は既に使われております。']);
-            } 
-        }
-        $this->member->insertName($name);
-
-        
     }
 
     /**

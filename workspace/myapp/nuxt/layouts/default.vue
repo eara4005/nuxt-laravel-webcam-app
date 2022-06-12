@@ -8,6 +8,11 @@
       <v-toolbar-title>
         WebCam App
       </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn
+        @click="$auth.logout()">
+        ログアウト
+      </v-btn>
     </v-app-bar>
     <v-main>
       <v-container>
@@ -24,6 +29,6 @@ export default {
     return {
       title: 'Vuetify.js'
     }
-  }
+  },
 }
 </script>

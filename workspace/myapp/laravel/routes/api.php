@@ -18,6 +18,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group(['middleware' => 'api'], function () {
+
+  Route::get('/current_user', function () {
+    return Auth::user();
+  })->name('currentUser');
+});
+
 Route::group(['middleware' => ['cors']], function () {
     // Route::get('upload', 'UploadController@index');
     // Route::post('upload', 'UploadController@store');

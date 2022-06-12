@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Member;
+use Illuminate\Support\Facades\DB;
 
 class NameSeeder extends Seeder
 {
@@ -13,16 +13,10 @@ class NameSeeder extends Seeder
     public function run()
     {
         //
-        Member::create([
-            'name' => '山田　太郎'
-        ]);
-
-        Member::create([
-            'name' => '山田　二郎'
-        ]);
-
-        Member::create([
-            'name' => '山田　三郎'
+        DB::table('member_names')->insert([
+            'name' => 'initUser',
+            'password' => bcrypt('password'),
+            'remember_token' => Str::random(10),
         ]);
     }
 }

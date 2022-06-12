@@ -15,7 +15,9 @@ class CreateMemberNamesTable extends Migration
     {
         Schema::create('member_names', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
+            $table->string("name")->unique();
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -27,6 +29,11 @@ class CreateMemberNamesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('member_names');
+        //Schema::dropIfExists('member_names');
+        // Schema::table('member_names', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string("name")->unique()->change();
+        //     $table->timestamps();
+        // });
     }
 }

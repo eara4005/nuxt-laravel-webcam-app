@@ -21,9 +21,10 @@
                 </div>
                 </v-card>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12 my-4">
                         <h5>▼ 以下からカメラデバイスを選択</h5>
-                        <select v-model="camera">
+                        <select 
+                            v-model="camera">
                             <option>-- Select Device --</option>
                             <option
                                 v-for="device in devices"
@@ -31,24 +32,17 @@
                                 :value="device.deviceId"
                             >{{ device.label }}</option>
                         </select>
+                        
+                        <h4 class="my-4">ログインユーザー：{{ userName }}</h4>
                         <v-card-actions>
                             <v-btn
-                                color="primary"
+                                color="success"
                                 @click="onCapture"
                             >
                                 写真を撮る
-                            </v-btn>
-                            <v-btn
-                                color="error"
-                                @click="onStop"
-                            >
-                                カメラを停止
-                            </v-btn>
-                            <v-btn
-                                color="success"
-                                @click="onStart"
-                            >
-                                カメラを有効化
+                                <v-icon>
+                                    mdi-camera
+                                </v-icon>
                             </v-btn>
                         </v-card-actions>
                     </div>
@@ -67,24 +61,15 @@
                         </figure>
                     </div>
                 </v-card>
-                <v-text-field
-                    v-model="name"
-                    label="ユーザー名を入力"
-                    placeholder="あなたの表示名"
-                    outlined
-                    :rules="[required,limit_length]"
-                    
-                />
-                <div class="error">
-                    <h2>{{errorMsg}}</h2>
-                </div>
                 <v-card-actions>
                     <v-btn
-                        :disabled="!name"
+                        :disabled="!img"
                         color="primary"
                         @click="onClickAdd"
-                    >
-                        アップロード
+                    >アップロード
+                        <v-icon>
+                            mdi-cloud-upload
+                        </v-icon>
                     </v-btn>
                 </v-card-actions>
 
@@ -98,6 +83,7 @@ import { WebCam } from 'vue-web-cam'
 import axios from'axios'
 
 export default {
+    middleware: 'auth',
     name: "CamApp",
     components: {
         "vue-web-cam": WebCam
@@ -105,13 +91,10 @@ export default {
     data() {
         return {
             img: null,
-            name:null,
             btn:null,
             camera: null,
             deviceId: null,
             devices: [],
-            btnflg:false,
-            errorMsg:"",
             
         };
         
@@ -120,6 +103,7 @@ export default {
         device: function() {
             return this.devices.find(n => n.deviceId === this.deviceId)
         },
+        
     },
     watch: {
         camera: function(id) {
@@ -134,26 +118,23 @@ export default {
             }
         }
     },
-    
-    methods: {
-        // 入力規則
-        required: value => !!value || "必ず入力してください", // 入力必須の制約
 
+    async asyncData(app) {
+        const resData = await app.$axios.$get('http://localhost:18080/api/current_user');
+        const userName = resData.name;
+        return {
+            userName,
+        }
+    },
+    
+    methods:{
+        getUserName(){
+            const data = axios.get('http://localhost:18080/api/current_user');
+            this.name = data.name;
+        },
         onCapture() {
             this.img = this.$refs.webcam.capture();
             alert("写真が取れました！スクロールして確認してください。")
-        },
-        onStarted(stream) {
-            console.log("On Started Event", stream);
-        },
-        onStopped(stream) {
-            console.log("On Stopped Event", stream);
-        },
-        onStop() {
-            this.$refs.webcam.stop();
-        },
-        onStart() {
-            this.$refs.webcam.start();
         },
         onError(error) {
             console.log("On Error Event", error);
@@ -174,9 +155,7 @@ export default {
             formData.append("name",this.name);
 
                     axios.post('http://localhost:18080/api/upload',formData).then(response => {
-                        if(response.data.miss_match != null ){
-                            this.errorMsg = response.data.miss_match;
-                        }
+                        alert("写真がアップロードされました。")
                     })
                         .catch(response => {
                         alert('送信に失敗しました。')

@@ -27,4 +27,15 @@ class AuthServiceProvider extends ServiceProvider
 
         //
     }
+
+    /**
+   * @param Request $request
+   */
+  protected function loggedOut(Request $request)
+  {
+    Auth::logout();
+    $request->session()->regenerate();
+
+    return response()->json();
+  }
 }

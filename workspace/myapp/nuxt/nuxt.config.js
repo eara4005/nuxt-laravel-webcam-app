@@ -52,6 +52,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
     '@nuxtjs/dotenv',
+    '@nuxtjs/auth',
   ],
 
   axios: {
@@ -65,6 +66,29 @@ export default {
     '/api': {
       terget:'http://localhost:18080',
     },
+  },
+  auth: {
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      callback: false,
+      home: '/camera'
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/login', method: 'post', propertyName: false },
+          user: { url: '/home', method: 'get', propertyName: false },
+          logout: { url: '/logout', method: 'post', propertyName: false },
+        },
+        tokenRequired: false,
+        tokenType: false,
+      }
+    },
+    localStorage: false,
+  },
+  router: {
+    middleware: ['auth']
   },
 
   server: {
