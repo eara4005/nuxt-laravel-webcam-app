@@ -1,7 +1,7 @@
 <template>
     <v-container pt-4>
         <v-row justify="center">
-            <v-cols cols="12" sm="6" md="6">
+            <v-col cols="12" sm="6" md="6">
                 <v-card 
                     class="logo py-2 justify-center"
                     min-width="720"
@@ -12,8 +12,6 @@
                         ref="webcam"
                         :device-id="deviceId"
                         width="100%"
-                        @started="onStarted"
-                        @stopped="onStopped"
                         @error="onError"
                         @cameras="onCameras"
                         @camera-change="onCameraChange"
@@ -53,7 +51,6 @@
                 >
                     <div class="border">
                         <figure class="figure">
-
                             <v-img 
                                 :src="img" 
                                 width="100%"
@@ -72,8 +69,7 @@
                         </v-icon>
                     </v-btn>
                 </v-card-actions>
-
-            </v-cols>
+            </v-col>
         </v-row>
     </v-container>
 </template>
@@ -128,10 +124,6 @@ export default {
     },
     
     methods:{
-        getUserName(){
-            const data = axios.get('http://localhost:18080/api/current_user');
-            this.name = data.name;
-        },
         onCapture() {
             this.img = this.$refs.webcam.capture();
             alert("写真が取れました！スクロールして確認してください。")
