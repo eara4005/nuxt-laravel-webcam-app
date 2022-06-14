@@ -14,13 +14,13 @@
 <a id="build"></a>
 
 ## 仮想環境を立ち上げ
+作業ディレクトリまで移動
+```
+$ cd workspace/myapp/
+```
 環境変数(.env)のコピー
 ```
 $ cp .env.example .env
-```
-作業ディレクトリまで移動
-```
-$ cd /workspace/myapp
 ```
 ビルド
 ```
