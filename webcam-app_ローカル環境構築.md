@@ -32,11 +32,15 @@ $ docker-compose up -d
 ```
 バックエンド初期化
 ```
+cd laravel
+cp .env.example .env
+cd ../
 $ docker-compose exec app sh
 /var/www/laravel # composer install
 /var/www/laravel # apk add npm
 /var/www/laravel # npm install
 /var/www/laravel # npm run dev
+/var/www/laravel # php artisan key:generate
 /var/www/laravel # exit
 ```
 フロントエンド初期化
@@ -48,7 +52,8 @@ $ cd ../
 db初期化
 ```
 $ docker-compose exec app php artisan migrate
-$ docker-compose exec app php artisan db:seed --class NecomataSeeder
+$ docker-compose exec app php artisan db:seed --class=NecomataSeeder
+$ docker-compose exec app php artisan migrate
 ```
 再起動
 ```
