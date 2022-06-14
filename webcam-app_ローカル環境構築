@@ -14,12 +14,51 @@
 <a id="build"></a>
 
 ## 仮想環境を立ち上げ
-
+環境変数(.env)のコピー
 ```
-cd /workspace/myapp
+$ cp .env.example .env
 ```
-
+作業ディレクトリまで移動
 ```
-docker-compose build --no-cache
+$ cd /workspace/myapp
+```
+ビルド
+```
+$ docker-compose build --no-cache
+```
+コンテナの立ち上げ
+```
+$ docker-compose up -d
+```
+バックエンド初期化
+```
+$ docker-compose exec app sh
+/var/www/laravel # composer install
+/var/www/laravel # apk add npm
+/var/www/laravel # npm install
+/var/www/laravel # npm run dev
+/var/www/laravel # exit
+```
+フロントエンド初期化
+```
+$ cd nuxt/
+$ yarn install
+$ cd ../
+```
+db初期化
+```
+$ docker-compose exec app php artisan migrate
+$ docker-compose exec app php artisan db:seed --class NecomataSeeder
+```
+再起動
+```
+docker-compose down
 docker-compose up -d
+```
+アクセス  
+http://localhost:3000  
+
+停止
+```
+docker-compose down
 ```
