@@ -49,16 +49,15 @@ $ cd nuxt/
 $ yarn install
 $ cd ../
 ```
-db初期化
-```
-$ docker-compose exec app php artisan migrate
-$ docker-compose exec app php artisan db:seed --class=NecomataSeeder
-$ docker-compose exec app php artisan migrate
-```
 再起動
 ```
 docker-compose down
 docker-compose up -d
+```
+db初期化
+```
+$ docker-compose exec app php artisan migrate
+$ docker-compose exec app php artisan db:seed --class=NecomataSeeder
 ```
 アクセス  
 http://localhost:3000  
