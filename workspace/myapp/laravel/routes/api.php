@@ -26,7 +26,7 @@ Route::group(['middleware' => 'api'], function () {
 });
 
 Route::group(['middleware' => ['cors']], function () {
-    // Route::get('upload', 'UploadController@index');
-    // Route::post('upload', 'UploadController@store');
+    Route::get('index_faces', 'Api\ImgUpController@indexFaces');
+    Route::post('index_faces', 'Api\ImgUpController@StoreIndexFaces');
     Route::apiResource('upload','Api\ImgUpController');
 });
