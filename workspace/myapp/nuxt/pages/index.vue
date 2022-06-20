@@ -124,6 +124,7 @@ export default {
       formData.append("img", this.img);
       formData.append("name", this.username);
 
+      this.$nuxt.$loading.start();
       await axios.post('http://localhost:18080/api/upload', formData)
         .then(response => {
           console.log("Picture upload done.")
@@ -131,6 +132,7 @@ export default {
         .catch(response => {
           alert('送信に失敗しました。')
         });
+      this.$nuxt.$loading.finish();
     },
   }
 };
