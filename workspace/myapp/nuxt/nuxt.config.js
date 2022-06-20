@@ -9,7 +9,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - webcam-app',
+    titleTemplate: 'webcam-app',
     title: 'webcam-app',
     htmlAttrs: {
       lang: 'en'
@@ -72,7 +72,7 @@ export default {
       login: '/login',
       logout: '/login',
       callback: false,
-      home: '/camera'
+      home: '/'
     },
     strategies: {
       local: {

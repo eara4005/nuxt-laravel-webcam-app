@@ -1,51 +1,24 @@
 <template>
-  <v-container pt-4>
+  <v-container pt-4 max-width="500">
     <v-row justify="center" class="align-center">
-      <v-col cols="8" md="8" min-width="500">
+      <v-col cols="8" md="8">
         <h1 class="h2 pb-1 border-bottom border-dark" align="center">
           顔登録システム-ログイン
         </h1>
         <form name="login" @submit.prevent="login()">
           <div class="form-group">
             <label for="name">ユーザー名</label>
-            <v-text-field
-              type="name"
-              class="form-control"
-              id="name"
-              outlined
-              v-model="form.name"
-              :rules="[required]"
-            />
+            <v-text-field type="name" class="shrink mx-4" id="name" outlined v-model="form.name" :rules="[required]" />
           </div>
           <div class="form-group">
             <label for="password">パスワード</label>
-            <v-text-field
-              type="password"
-              class="form-control"
-              id="password"
-              outlined
-              v-model="form.password"
-              :rules="[required]"
-            />
+            <v-text-field type="password" class="shrink mx-4" id="password" outlined v-model="form.password"
+              :rules="[required]" />
           </div>
-          <v-alert
-            type="error"
-            v-text="errors.name"
-            v-if="errors.name"
-          ></v-alert>
-          <v-alert
-            type="error"
-            v-text="errors.password"
-            v-if="errors.password"
-          ></v-alert>
+          <v-alert type="error" v-text="errors.name" v-if="errors.name"></v-alert>
+          <v-alert type="error" v-text="errors.password" v-if="errors.password"></v-alert>
           <div align="center">
-            <v-btn
-              color="primary"
-              type="submit"
-              class="btn btn-success"
-              :disabled="activeBtn"
-              >ログイン</v-btn
-            >
+            <v-btn color="primary" type="submit" class="btn btn-success" :disabled="activeBtn">ログイン</v-btn>
           </div>
         </form>
         <Caption></Caption>
