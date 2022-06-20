@@ -1,16 +1,11 @@
 <template>
   <v-app>
-    <v-app-bar
-      :clipped-left="clipped"
-      fixed
-      app
-    >
+    <v-app-bar :clipped-left="clipped" fixed app>
       <v-toolbar-title>
         WebCam App
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn
-        @click="$auth.logout()">
+      <v-btn @click=" $nuxt.$loading.start(); $auth.logout(); ">
         ログアウト
       </v-btn>
     </v-app-bar>

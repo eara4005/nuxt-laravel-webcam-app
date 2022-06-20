@@ -75,10 +75,9 @@ export default {
           errors[key] = responseErrors[key][0];
         }
         self.errors = errors;
-      } finally {
-        // ローディング処理終了
-        this.$nuxt.$loading.finish()
       }
+      // ローディング処理終了
+      this.$nuxt.$loading.finish()
     },
   },
 };
