@@ -59,6 +59,8 @@ export default {
     async login() {
       this.errors = {};
       var self = this;
+      // ローディング処理完了
+      this.$nuxt.$loading.start()
       try {
         const response = await this.$auth.loginWith("local", {
           data: this.form,
@@ -73,6 +75,9 @@ export default {
           errors[key] = responseErrors[key][0];
         }
         self.errors = errors;
+      } finally {
+        // ローディング処理終了
+        this.$nuxt.$loading.finish()
       }
     },
   },
